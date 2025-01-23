@@ -1,0 +1,37 @@
+name: "Sync repos"
+on:
+  schedule:
+    - cron: "0 0 * * 6"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - repo: docker-unrar
+            branch: main
+          - repo: docker-baseimage-alpine
+            branch: "3.20"
+          - repo: docker-baseimage-alpine
+            branch: "3.21"
+            upstream_branch: master
+          - repo: docker-baseimage-ubuntu
+            branch: jammy
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: linuxserver/${{ matrix.repo }}/${{ matrix.branch }}
+          fetch-depth: 0
+      - name: Sync branch
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git remote add upstream https://github.com/linuxserver/${{ matrix.repo }}
+          git fetch upstream
+          git rebase upstream/${{ matrix.upstream_branch != '' && matrix.upstream_branch || matrix.branch }} linuxserver/${{ matrix.repo }}/${{ matrix.branch }}
+          git push -f origin linuxserver/${{ matrix.repo }}/${{ matrix.branch }}
