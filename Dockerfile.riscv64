@@ -5,7 +5,7 @@ FROM alpine:3.20 AS rootfs-stage
 # environment
 ENV ROOTFS=/root-out
 ENV REL=v3.21
-ENV ARCH=aarch64
+ENV ARCH=riscv64
 ENV MIRROR=http://dl-cdn.alpinelinux.org/alpine
 ENV PACKAGES=alpine-baselayout,\
 alpine-keys,\
@@ -31,7 +31,7 @@ RUN \
 
 # set version for s6 overlay
 ARG S6_OVERLAY_VERSION="3.2.0.2"
-ARG S6_OVERLAY_ARCH="aarch64"
+ARG S6_OVERLAY_ARCH="riscv64"
 
 # add s6 overlay
 ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz /tmp
