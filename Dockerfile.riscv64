@@ -4,7 +4,7 @@ FROM alpine:3 as rootfs-stage
 
 # environment
 ENV REL=jammy
-ENV ARCH=arm64
+ENV ARCH=riscv64
 
 # install packages
 RUN \
@@ -19,7 +19,7 @@ RUN \
   mkdir /root-out && \
   curl -o \
     /rootfs.tar.gz -L \
-    https://partner-images.canonical.com/core/${REL}/current/ubuntu-${REL}-core-cloudimg-${ARCH}-root.tar.gz && \
+    https://partner-images.canonical.com/oci/${REL}/current/ubuntu-${REL}-oci-${ARCH}-root.tar.gz && \
   tar xf \
     /rootfs.tar.gz -C \
     /root-out && \
@@ -28,7 +28,7 @@ RUN \
 
 # set version for s6 overlay
 ARG S6_OVERLAY_VERSION="3.1.6.2"
-ARG S6_OVERLAY_ARCH="aarch64"
+ARG S6_OVERLAY_ARCH="riscv64"
 
 # add s6 overlay
 ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz /tmp
