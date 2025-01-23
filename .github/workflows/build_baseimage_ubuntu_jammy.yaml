@@ -1,0 +1,20 @@
+name: Publish Docker image for ubuntu jammy
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "linuxserver/docker-baseimage-ubuntu/jammy"
+
+jobs:
+  build-and-push-image:
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+    uses: ./.github/workflows/build.yaml
+    with:
+      branch: docker-baseimage-ubuntu/jammy
+      image_name: ${{ github.repository }}/baseimage-ubuntu
+      image_tag: riscv64-jammy

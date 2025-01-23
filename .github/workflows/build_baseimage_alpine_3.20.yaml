@@ -1,0 +1,20 @@
+name: Publish Docker image for alpine 3.20
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "linuxserver/docker-baseimage-alpine/3.20"
+
+jobs:
+  build-and-push-image:
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+    uses: ./.github/workflows/build.yaml
+    with:
+      branch: docker-baseimage-alpine/3.20
+      image_name: ${{ github.repository }}/baseimage-alpine
+      image_tag: riscv64-3.20
