@@ -22,6 +22,8 @@ jobs:
             upstream_branch: master
           - repo: docker-baseimage-ubuntu
             branch: jammy
+          - repo: docker-sabnzbd
+            branch: master
     steps:
       - uses: actions/checkout@v4
         with:
